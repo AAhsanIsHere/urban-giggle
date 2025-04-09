@@ -1,5 +1,5 @@
-// Highlighting feature
-document.querySelector('.passage').addEventListener('mouseup', function () {
+// Highlight selected text in the passage
+document.querySelector('.left-pane').addEventListener('mouseup', function () {
   const selection = window.getSelection();
   if (selection.toString().length > 0) {
     const range = selection.getRangeAt(0);
@@ -10,7 +10,7 @@ document.querySelector('.passage').addEventListener('mouseup', function () {
   }
 });
 
-// Timer
+// Timer countdown
 let totalSeconds = 60 * 60;
 const timerDisplay = document.getElementById('timer');
 
@@ -30,7 +30,7 @@ function updateTimer() {
 
 updateTimer();
 
-// Check answers
+// Submit and check answers
 const correctAnswers = {
   q1: "FALSE",
   q2: "NOT GIVEN",
