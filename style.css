@@ -1,0 +1,32 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.passage, .questions {
+  padding: 20px;
+  overflow-y: scroll;
+}
+
+.passage {
+  width: 60%;
+  border-right: 1px solid #ccc;
+  background: #f9f9f9;
+}
+
+.questions {
+  width: 40%;
+  background: #fff;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 5px;
+  margin-top: 5px;
+}
