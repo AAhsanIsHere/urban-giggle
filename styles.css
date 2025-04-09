@@ -31,7 +31,8 @@ header {
   height: calc(100vh - 80px);
 }
 
-.left-pane, .right-pane {
+.left-pane,
+.right-pane {
   padding: 20px;
   overflow-y: auto;
 }
@@ -60,7 +61,6 @@ button {
   color: white;
   border: none;
   cursor: pointer;
-  margin-top: 10px;
 }
 
 button:hover {
