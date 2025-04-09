@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>IELTS Mock Test</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="header">
+    <h1>IELTS Reading Mock Test</h1>
+    <div id="timer">Time left: 60:00</div>
+  </div>
+
+  <div class="container">
+    <div class="passage" contenteditable="true">
+      <h2>Reading Passage</h2>
+      <p>
+        Marie Curie is probably the most famous woman scientist who has ever lived. Born in Poland in 1867...
+        (Insert full passage here)
+      </p>
+    </div>
+
+    <div class="questions">
+      <h2>Questions</h2>
+      <ol>
+        <li>
+          <label>1. Marie Curie’s husband was a joint winner of both Marie’s Nobel Prizes.</label><br>
+          <input type="text" id="q1" placeholder="Write TRUE, FALSE, or NOT GIVEN">
+        </li>
+        <li>
+          <label>2. Marie became interested in science when she was a child.</label><br>
+          <input type="text" id="q2">
+        </li>
+        <li>
+          <label>3. She was the first woman to win a Nobel Prize.</label><br>
+          <input type="text" id="q3">
+        </li>
+      </ol>
+      <button onclick="submitAnswers()">Submit</button>
+      <div id="results"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
