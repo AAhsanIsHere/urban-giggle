@@ -6,6 +6,8 @@ function updateTimer() {
   const seconds = timeLeft % 60;
   timerElement.textContent = `Time left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   
+  console.log(`Timer updated: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`); // Log the updated time
+  
   if (timeLeft > 0) {
     timeLeft--;
     setTimeout(updateTimer, 1000);
