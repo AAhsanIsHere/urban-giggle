@@ -6,29 +6,40 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="container">
-    <div class="passage" contenteditable="true">
+  <header>
+    <h1>IELTS Reading Mock Test</h1>
+    <div id="timer">Time left: 60:00</div>
+  </header>
+
+  <div class="main-container">
+    <div class="left-pane" contenteditable="true">
       <h2>Reading Passage</h2>
       <p>
-        Marie Curie is probably the most famous woman scientist who has ever lived...
-        (Insert full passage text here)
+        Marie Curie is probably the most famous woman scientist who has ever lived. Born in Poland in 1867...
       </p>
     </div>
-    <div class="questions">
+
+    <div class="right-pane">
       <h2>Questions</h2>
       <ol>
         <li>
           <label>1. Marie Curie’s husband was a joint winner of both Marie’s Nobel Prizes.</label><br>
-          <input type="text" placeholder="Write TRUE, FALSE, or NOT GIVEN">
+          <input type="text" id="q1" placeholder="Write TRUE, FALSE, or NOT GIVEN">
         </li>
         <li>
           <label>2. Marie became interested in science when she was a child.</label><br>
-          <input type="text">
+          <input type="text" id="q2">
         </li>
-        <!-- Add more questions as needed -->
+        <li>
+          <label>3. She was the first woman to win a Nobel Prize.</label><br>
+          <input type="text" id="q3">
+        </li>
       </ol>
+      <button onclick="submitAnswers()">Submit</button>
+      <div id="results"></div>
     </div>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
