@@ -1,45 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>IELTS Mock Test</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <header>
-    <h1>IELTS Reading Mock Test</h1>
-    <div id="timer">Time left: 60:00</div>
-  </header>
+* {
+  box-sizing: border-box;
+}
 
-  <div class="main-container">
-    <div class="left-pane" contenteditable="true">
-      <h2>Reading Passage</h2>
-      <p>
-        Marie Curie is probably the most famous woman scientist who has ever lived. Born in Poland in 1867...
-      </p>
-    </div>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
 
-    <div class="right-pane">
-      <h2>Questions</h2>
-      <ol>
-        <li>
-          <label>1. Marie Curie’s husband was a joint winner of both Marie’s Nobel Prizes.</label><br>
-          <input type="text" id="q1" placeholder="Write TRUE, FALSE, or NOT GIVEN">
-        </li>
-        <li>
-          <label>2. Marie became interested in science when she was a child.</label><br>
-          <input type="text" id="q2">
-        </li>
-        <li>
-          <label>3. She was the first woman to win a Nobel Prize.</label><br>
-          <input type="text" id="q3">
-        </li>
-      </ol>
-      <button onclick="submitAnswers()">Submit</button>
-      <div id="results"></div>
-    </div>
-  </div>
+header {
+  background-color: #003366;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
 
-  <script src="script.js"></script>
-</body>
-</html>
+#timer {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.main-container {
+  display: flex;
+  margin-top: 80px;
+  height: calc(100vh - 80px);
+}
+
+.left-pane, .right-pane {
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.left-pane {
+  width: 60%;
+  border-right: 1px solid #ccc;
+  background-color: #f4f4f4;
+}
+
+.right-pane {
+  width: 40%;
+  background-color: #fff;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 6px;
+  margin-top: 6px;
+  margin-bottom: 15px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #003366;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0055aa;
+}
+
+#results {
+  margin-top: 20px;
+  font-weight: bold;
+}
