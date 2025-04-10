@@ -1,86 +1,71 @@
-let timeLeft = 60 * 60; // 1 hour in seconds
-const timerElement = document.getElementById('timer');
-let currentPassage = 1; // Track the current passage
-
-function updateTimer() {
-  const minutes = String(Math.floor(timeLeft / 60)).padStart(2, '0');
-  const seconds = String(timeLeft % 60).padStart(2, '0');
-  timerElement.textContent = `Time left: ${minutes}:${seconds}`;
-  
-  if (timeLeft > 0) {
-    timeLeft--;
-    setTimeout(updateTimer, 1000);
-  } else {
-    alert('Time is up!');
-    document.querySelectorAll('input[type="text"], button').forEach(element => {
-      element.disabled = true; // Disable all inputs and buttons
-    });
+const passages = [
+  {
+    text: "Marie Curie is probably the most famous woman scientist who has ever lived. Born in Poland in 1867...",
+    questions: [
+      { id: "q1", text: "1. Marie Curie’s husband was a joint winner of both Marie’s Nobel Prizes.", answer: "FALSE" },
+      { id: "q2", text: "2. Marie became interested in science when she was a child.", answer: "NOT GIVEN" },
+      { id: "q3", text: "3. She was the first woman to win a Nobel Prize.", answer: "TRUE" }
+    ]
+  },
+  {
+    text: "Nikola Tesla was a Serbian-American inventor known for his contributions to the design of the modern alternating current...",
+    questions: [
+      { id: "q1", text: "1. Tesla invented direct current systems.", answer: "FALSE" },
+      { id: "q2", text: "2. Tesla worked for Thomas Edison at some point.", answer: "TRUE" },
+      { id: "q3", text: "3. He was born in the United States.", answer: "FALSE" }
+    ]
   }
+];
+
+let currentPassage = 0;
+
+function loadPassage(index) {
+  document.querySelector(".left-pane").innerHTML = `
+    <h2>Reading Passage</h2>
+    <p>${passages[index].text}</p>
+    <div class="navigation-buttons">
+      <button id="prevBtn" onclick="changePassage(-1)" style="${index === 0 ? 'display: none;' : ''}">Previous</button>
+      <button id="nextBtn" onclick="changePassage(1)" style="${index === passages.length - 1 ? 'display: none;' : ''}">Next</button>
+    </div>
+  `;
+
+  const questionsHTML = passages[index].questions.map(q => `
+    <li>
+      <label>${q.text}</label><br>
+      <input type="text" id="${q.id}">
+    </li>
+  `).join('');
+
+  document.querySelector(".right-pane").innerHTML = `
+    <h2>Questions</h2>
+    <ol>${questionsHTML}</ol>
+    <button onclick="submitAnswers()">Submit</button>
+    <div id="results"></div>
+  `;
 }
 
-updateTimer();
-
-function previousPassage() {
-  if (currentPassage > 1) {
-    currentPassage--;
-    showPassage();
-  }
-}
-
-function nextPassage() {
-  if (currentPassage < 3) {
-    currentPassage++;
-    showPassage();
-  }
-}
-
-function showPassage() {
-  // Hide all passages and questions
-  document.getElementById('passage1').style.display = 'none';
-  document.getElementById('passage2').style.display = 'none';
-  document.getElementById('passage3').style.display = 'none';
-  document.getElementById('questions1').style.display = 'none';
-  document.getElementById('questions2').style.display = 'none';
-  document.getElementById('questions3').style.display = 'none';
-
-  // Show the current passage and corresponding questions
-  document.getElementById('passage' + currentPassage).style.display = 'block';
-  document.getElementById('questions' + currentPassage).style.display = 'block';
+function changePassage(direction) {
+  currentPassage += direction;
+  loadPassage(currentPassage);
 }
 
 function submitAnswers() {
-  const answers = {
-    q1: document.getElementById('q1').value.trim(),
-    q2: document.getElementById('q2').value.trim(),
-    q3: document.getElementById('q3').value.trim(),
-    q4: document.getElementById('q4').value.trim(),
-    q5: document.getElementById('q5').value.trim(),
-    q6: document.getElementById('q6').value.trim(),
-    q7: document.getElementById('q7').value.trim(),
-  };
-
-  const correctAnswers = {
-    q1: "FALSE",
-    q2: "NOT GIVEN",
-    q3: "TRUE",
-    q4: "TRUE",
-    q5: "FALSE",
-    q6: "TRUE",
-    q7: "FALSE",
-  };
-
-  let result = "Your results:\n";
   let score = 0;
-  
-  for (let q in answers) {
-    if (answers[q].toUpperCase() === correctAnswers[q]) {
-      result += `${q}: Correct\n`;
+  let total = passages[currentPassage].questions.length;
+  let resultText = "";
+
+  passages[currentPassage].questions.forEach(q => {
+    const userAnswer = document.getElementById(q.id).value.trim().toUpperCase();
+    if (userAnswer === q.answer) {
       score++;
     } else {
-      result += `${q}: Incorrect\n`;
+      resultText += `${q.text} — Correct: "${q.answer}"<br>`;
     }
-  }
-  
-  result += `Score: ${score} out of 7`;
-  document.getElementById('results').textContent = result;
+  });
+
+  resultText = `Your score: ${score}/${total}<br><br>` + resultText;
+  document.getElementById("results").innerHTML = resultText;
 }
+
+// Load the first passage
+loadPassage(0);
