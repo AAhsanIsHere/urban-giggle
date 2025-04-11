@@ -36,6 +36,7 @@ function loadPassage(index) {
   const questionList = document.getElementById('question-list');
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
+  const submitBtn = document.getElementById('submitAllBtn');
   const resultsDiv = document.getElementById('results');
 
   const passage = passages[index];
@@ -57,6 +58,7 @@ function loadPassage(index) {
 
   prevBtn.style.display = index === 0 ? "none" : "inline-block";
   nextBtn.style.display = index === passages.length - 1 ? "none" : "inline-block";
+  submitBtn.style.display = index === passages.length - 1 ? "inline-block" : "none";
 
   resultsDiv.innerHTML = "";
 }
@@ -86,7 +88,6 @@ function submitAnswers() {
   resultText = `Your score: ${score}/${total}<br><br>` + resultText;
   document.getElementById("results").innerHTML = resultText;
 
-  // Disable inputs and buttons after submit
   document.querySelectorAll('input[type="text"]').forEach(input => input.disabled = true);
   document.getElementById('prevBtn').disabled = true;
   document.getElementById('nextBtn').disabled = true;
