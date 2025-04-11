@@ -13,20 +13,19 @@
 
   <div class="main-container">
     <div class="left-pane" id="passage-pane">
-      <h2>Reading Passage</h2>
-      <p>Loading passage...</p>
-      <div class="navigation-buttons">
-        <button id="prevBtn" onclick="changePassage(-1)" style="display: none;">Previous</button>
-        <button id="nextBtn" onclick="changePassage(1)">Next</button>
-      </div>
+      <!-- Passage content will be injected here -->
     </div>
 
     <div class="right-pane" id="question-pane">
       <h2>Questions</h2>
       <ol id="question-list">
-        <!-- Questions will load here -->
+        <!-- Questions will be injected here -->
       </ol>
-      <button onclick="submitAnswers()">Submit</button>
+      <div class="question-controls">
+        <button onclick="submitAnswers()">Submit</button>
+        <button id="prevBtn" onclick="changePassage(-1)">Previous</button>
+        <button id="nextBtn" onclick="changePassage(1)">Next</button>
+      </div>
       <div id="results"></div>
     </div>
   </div>
