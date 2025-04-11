@@ -53,6 +53,7 @@ function loadPassage(index) {
     questionList.appendChild(li);
   });
 
+  // Toggle button visibility
   prevBtn.style.display = index === 0 ? "none" : "inline-block";
   nextBtn.style.display = index === passages.length - 1 ? "none" : "inline-block";
   submitControls.style.display = index === passages.length - 1 ? "block" : "none";
