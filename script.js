@@ -30,10 +30,11 @@ const passages = [
 
 let currentPassage = 0;
 let userAnswers = {};
-let timerId;
 let totalSeconds = 60 * 60;
+let timerId;
 
 function loadPassage(index) {
+  const passage = passages[index];
   const passagePane = document.getElementById('passage-pane');
   const questionList = document.getElementById('question-list');
   const prevBtn = document.getElementById('prevBtn');
@@ -41,27 +42,21 @@ function loadPassage(index) {
   const submitBtn = document.getElementById('submitBtn');
   const resultsDiv = document.getElementById('results');
 
-  const passage = passages[index];
-
-  passagePane.innerHTML = `
-    <h2>${passage.title}</h2>
-    <p>${passage.text}</p>
-  `;
-
+  passagePane.innerHTML = `<h2>${passage.title}</h2><p>${passage.text}</p>`;
   questionList.innerHTML = "";
+
   passage.questions.forEach(q => {
     const li = document.createElement("li");
     li.innerHTML = `
       <label>${q.text}</label><br>
-      <input type="text" id="${q.id}" value="${userAnswers[q.id] || ''}">
+      <input type="text" id="${q.id}" value="${userAnswers[q.id] || ""}">
     `;
     questionList.appendChild(li);
   });
 
   passage.questions.forEach(q => {
-    const input = document.getElementById(q.id);
-    input.addEventListener("input", () => {
-      userAnswers[q.id] = input.value;
+    document.getElementById(q.id).addEventListener("input", function () {
+      userAnswers[q.id] = this.value;
     });
   });
 
@@ -78,7 +73,7 @@ function changePassage(direction) {
 }
 
 function submitAnswers() {
-  clearTimeout(timerId); // Stop timer
+  clearTimeout(timerId); // stop the timer
 
   let score = 0;
   let total = 0;
@@ -86,8 +81,8 @@ function submitAnswers() {
 
   passages.forEach(passage => {
     passage.questions.forEach(q => {
-      const userAnswer = (userAnswers[q.id] || "").trim().toUpperCase();
       total++;
+      const userAnswer = (userAnswers[q.id] || "").trim().toUpperCase();
       if (userAnswer === q.answer) {
         score++;
       } else {
@@ -100,9 +95,9 @@ function submitAnswers() {
   document.getElementById("results").innerHTML = resultText;
 
   document.querySelectorAll('input[type="text"]').forEach(input => input.disabled = true);
-  document.getElementById('prevBtn').disabled = true;
-  document.getElementById('nextBtn').disabled = true;
-  document.getElementById('submitBtn').disabled = true;
+  document.getElementById("prevBtn").disabled = true;
+  document.getElementById("nextBtn").disabled = true;
+  document.getElementById("submitBtn").disabled = true;
 }
 
 function updateTimer() {
@@ -130,11 +125,11 @@ document.addEventListener('mouseup', function () {
       range.surroundContents(span);
       selection.removeAllRanges();
     } catch (e) {
-      console.warn("Highlight failed: ", e);
+      console.warn("Highlight failed:", e);
     }
   }
 });
 
 // Initialize
-loadPassage(0);
+loadPassage(currentPassage);
 updateTimer();
