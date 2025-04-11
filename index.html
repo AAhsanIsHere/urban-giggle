@@ -12,83 +12,21 @@
   </header>
 
   <div class="main-container">
-    <div class="left-pane">
-      <div id="passage1">
-        <h2>Reading Passage 1</h2>
-        <p contenteditable="true">
-          Marie Curie is probably the most famous woman scientist who has ever lived. Born in Poland in 1867...
-        </p>
-      </div>
-
-      <div id="passage2" style="display:none;">
-        <h2>Reading Passage 2</h2>
-        <p contenteditable="true">
-          Here comes the text for Passage 2. This passage will describe another topic.
-        </p>
-      </div>
-
-      <div id="passage3" style="display:none;">
-        <h2>Reading Passage 3</h2>
-        <p contenteditable="true">
-          This is Passage 3 with another topic to test reading comprehension.
-        </p>
+    <div class="left-pane" id="passage-pane">
+      <h2>Reading Passage</h2>
+      <p>Loading passage...</p>
+      <div class="navigation-buttons">
+        <button id="prevBtn" onclick="changePassage(-1)" style="display: none;">Previous</button>
+        <button id="nextBtn" onclick="changePassage(1)">Next</button>
       </div>
     </div>
 
-    <div class="right-pane">
+    <div class="right-pane" id="question-pane">
       <h2>Questions</h2>
-      <div id="questions">
-        <!-- Questions for Passage 1 -->
-        <div id="questions1">
-          <ol>
-            <li>
-              <label>1. Marie Curie’s husband was a joint winner of both Marie’s Nobel Prizes.</label><br>
-              <input type="text" id="q1" placeholder="Write TRUE, FALSE, or NOT GIVEN">
-            </li>
-            <li>
-              <label>2. Marie became interested in science when she was a child.</label><br>
-              <input type="text" id="q2">
-            </li>
-            <li>
-              <label>3. She was the first woman to win a Nobel Prize.</label><br>
-              <input type="text" id="q3">
-            </li>
-          </ol>
-        </div>
-
-        <!-- Questions for Passage 2 -->
-        <div id="questions2" style="display:none;">
-          <ol>
-            <li>
-              <label>1. The second passage talks about scientific discoveries in the 19th century.</label><br>
-              <input type="text" id="q4">
-            </li>
-            <li>
-              <label>2. The second passage mentions a famous scientist.</label><br>
-              <input type="text" id="q5">
-            </li>
-          </ol>
-        </div>
-
-        <!-- Questions for Passage 3 -->
-        <div id="questions3" style="display:none;">
-          <ol>
-            <li>
-              <label>1. Passage 3 describes events from the 20th century.</label><br>
-              <input type="text" id="q6">
-            </li>
-            <li>
-              <label>2. Passage 3 focuses on medical advancements.</label><br>
-              <input type="text" id="q7">
-            </li>
-          </ol>
-        </div>
-
-        <button onclick="previousPassage()">Previous Passage</button>
-        <button onclick="nextPassage()">Next Passage</button>
-        <button onclick="submitAnswers()">Submit</button>
-      </div>
-
+      <ol id="question-list">
+        <!-- Questions will load here -->
+      </ol>
+      <button onclick="submitAnswers()">Submit</button>
       <div id="results"></div>
     </div>
   </div>
