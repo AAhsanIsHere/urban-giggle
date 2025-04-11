@@ -14,17 +14,14 @@
   <div class="main-container">
     <div class="left-pane" id="passage-pane"></div>
 
-    <div class="right-pane" id="question-pane">
+    <div class="right-pane">
       <h2>Questions</h2>
       <ol id="question-list"></ol>
 
       <div class="navigation-controls">
         <button id="prevBtn" onclick="changePassage(-1)">Previous</button>
         <button id="nextBtn" onclick="changePassage(1)">Next</button>
-      </div>
-
-      <div class="submit-controls" id="submit-controls" style="display: none;">
-        <button onclick="submitAnswers()">Submit</button>
+        <button id="submitBtn" onclick="submitAnswers()" style="display: none;">Submit</button>
       </div>
 
       <div id="results"></div>
