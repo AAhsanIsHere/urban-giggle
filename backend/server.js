@@ -1,24 +1,27 @@
+// Import necessary modules
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 require('dotenv').config();
 
+// Initialize Express
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
-app.use(express.json());
+app.use(bodyParser.json());  // Parse incoming JSON data
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-.then(() => console.log('✅ Connected to MongoDB'))
-.catch((err) => console.error('❌ MongoDB connection error:', err));
+  .then(() => console.log('✅ Connected to MongoDB'))
+  .catch((err) => console.error('❌ MongoDB connection error:', err));
 
-// Mongoose Schema
+// Mongoose Schemas
 const QuestionSchema = new mongoose.Schema({
   id: String,
   text: String,
@@ -34,11 +37,12 @@ const PassageSchema = new mongoose.Schema({
 const Passage = mongoose.model('Passage', PassageSchema);
 
 // Routes
+// Home Route (Test)
 app.get('/', (req, res) => {
   res.send('IELTS Mock Test Backend is running!');
 });
 
-// Get all passages
+// Get all passages (Public Route)
 app.get('/api/passages', async (req, res) => {
   try {
     const passages = await Passage.find();
@@ -48,7 +52,11 @@ app.get('/api/passages', async (req, res) => {
   }
 });
 
-// Upload a new passage (for admin panel)
+// Admin Routes (to upload new passages)
+const adminRoutes = require('./routes/admin');  // Assuming you have a separate admin route handler
+app.use('/admin', adminRoutes);
+
+// Upload a new passage (Admin Route)
 app.post('/api/passages', async (req, res) => {
   try {
     const newPassage = new Passage(req.body);
@@ -62,32 +70,4 @@ app.post('/api/passages', async (req, res) => {
 // Start Server
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
-});
-
-// backend/server.js
-
-const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
-const bodyParser = require("body-parser");
-const adminRoutes = require("./routes/admin");  // Importing the admin routes
-
-const app = express();
-const port = process.env.PORT || 5000;
-
-// Middleware
-app.use(cors());
-app.use(bodyParser.json());  // Parse incoming JSON data
-
-// Use the admin routes for uploading passages
-app.use("/admin", adminRoutes);
-
-// Connect to MongoDB
-mongoose.connect("mongodb://your-mongo-connection-uri", { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.log(err));
-
-// Start the server
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
 });
