@@ -48,7 +48,16 @@ header {
 }
 
 .navigation-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-top: 20px;
+}
+
+.left-buttons,
+.right-buttons {
+  display: flex;
+  gap: 10px;
 }
 
 button {
@@ -57,7 +66,6 @@ button {
   color: white;
   border: none;
   cursor: pointer;
-  margin-right: 10px;
 }
 
 button:hover {
