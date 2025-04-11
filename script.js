@@ -30,6 +30,8 @@ const passages = [
 
 let currentPassage = 0;
 let userAnswers = {};
+let timerId;
+let totalSeconds = 60 * 60;
 
 function loadPassage(index) {
   const passagePane = document.getElementById('passage-pane');
@@ -56,7 +58,6 @@ function loadPassage(index) {
     questionList.appendChild(li);
   });
 
-  // Attach event listeners to inputs to save answers
   passage.questions.forEach(q => {
     const input = document.getElementById(q.id);
     input.addEventListener("input", () => {
@@ -77,6 +78,8 @@ function changePassage(direction) {
 }
 
 function submitAnswers() {
+  clearTimeout(timerId); // Stop timer
+
   let score = 0;
   let total = 0;
   let resultText = "";
@@ -102,6 +105,20 @@ function submitAnswers() {
   document.getElementById('submitBtn').disabled = true;
 }
 
+function updateTimer() {
+  const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+  const seconds = String(totalSeconds % 60).padStart(2, '0');
+  document.getElementById("timer").textContent = `Time left: ${minutes}:${seconds}`;
+  totalSeconds--;
+
+  if (totalSeconds >= 0) {
+    timerId = setTimeout(updateTimer, 1000);
+  } else {
+    alert("Time's up!");
+    submitAnswers();
+  }
+}
+
 // Highlight selected text
 document.addEventListener('mouseup', function () {
   const selection = window.getSelection();
@@ -117,21 +134,6 @@ document.addEventListener('mouseup', function () {
     }
   }
 });
-
-// Timer
-let totalSeconds = 60 * 60;
-function updateTimer() {
-  const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
-  const seconds = String(totalSeconds % 60).padStart(2, '0');
-  document.getElementById("timer").textContent = `Time left: ${minutes}:${seconds}`;
-  totalSeconds--;
-  if (totalSeconds >= 0) {
-    setTimeout(updateTimer, 1000);
-  } else {
-    alert("Time's up!");
-    submitAnswers();
-  }
-}
 
 // Initialize
 loadPassage(0);
