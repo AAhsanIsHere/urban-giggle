@@ -35,6 +35,7 @@ function loadPassage(index) {
   const questionList = document.getElementById('question-list');
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
+  const submitControls = document.getElementById('submit-controls');
   const resultsDiv = document.getElementById('results');
 
   passagePane.innerHTML = `
@@ -54,6 +55,7 @@ function loadPassage(index) {
 
   prevBtn.style.display = index === 0 ? "none" : "inline-block";
   nextBtn.style.display = index === passages.length - 1 ? "none" : "inline-block";
+  submitControls.style.display = index === passages.length - 1 ? "block" : "none";
   resultsDiv.innerHTML = "";
 }
 
