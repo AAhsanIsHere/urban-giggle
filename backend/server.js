@@ -1,66 +1,44 @@
-// Import necessary modules
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const bodyParser = require('body-parser');
+const Passage = require('./models/Passage');  // Import the Passage model
 require('dotenv').config();
 
-// Initialize Express
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
-app.use(bodyParser.json());  // Parse incoming JSON data
+app.use(express.json());
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-  .then(() => console.log('✅ Connected to MongoDB'))
-  .catch((err) => console.error('❌ MongoDB connection error:', err));
-
-// Mongoose Schemas
-const QuestionSchema = new mongoose.Schema({
-  id: String,
-  text: String,
-  answer: String,
-});
-
-const PassageSchema = new mongoose.Schema({
-  title: String,
-  text: String,
-  questions: [QuestionSchema],
-});
-
-const Passage = mongoose.model('Passage', PassageSchema);
+.then(() => console.log('✅ Connected to MongoDB'))
+.catch((err) => console.error('❌ MongoDB connection error:', err));
 
 // Routes
-// Home Route (Test)
 app.get('/', (req, res) => {
   res.send('IELTS Mock Test Backend is running!');
 });
 
-// Get all passages (Public Route)
+// Get all passages
 app.get('/api/passages', async (req, res) => {
   try {
-    const passages = await Passage.find();
+    const passages = await Passage.find();  // Fetch all passages from the database
     res.json(passages);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch passages' });
   }
 });
 
-// Admin Routes (to upload new passages)
-const adminRoutes = require('./routes/admin');  // Assuming you have a separate admin route handler
-app.use('/admin', adminRoutes);
-
-// Upload a new passage (Admin Route)
+// Upload a new passage (for admin panel)
 app.post('/api/passages', async (req, res) => {
   try {
     const newPassage = new Passage(req.body);
-    await newPassage.save();
+    await newPassage.save();  // Save the new passage to the database
     res.status(201).json(newPassage);
   } catch (err) {
     res.status(400).json({ error: 'Failed to save passage' });
