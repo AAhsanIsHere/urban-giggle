@@ -20,28 +20,31 @@ const passages = [
 let currentPassage = 0;
 
 function loadPassage(index) {
-  document.querySelector(".left-pane").innerHTML = `
+  const passagePane = document.getElementById('passage-pane');
+  const questionList = document.getElementById('question-list');
+
+  // Update passage text
+  passagePane.innerHTML = `
     <h2>Reading Passage</h2>
     <p>${passages[index].text}</p>
     <div class="navigation-buttons">
-      <button id="prevBtn" onclick="changePassage(-1)" style="${index === 0 ? 'display: none;' : ''}">Previous</button>
-      <button id="nextBtn" onclick="changePassage(1)" style="${index === passages.length - 1 ? 'display: none;' : ''}">Next</button>
+      <button id="prevBtn" onclick="changePassage(-1)" style="${index === 0 ? 'display:none;' : ''}">Previous</button>
+      <button id="nextBtn" onclick="changePassage(1)" style="${index === passages.length - 1 ? 'display:none;' : ''}">Next</button>
     </div>
   `;
 
-  const questionsHTML = passages[index].questions.map(q => `
-    <li>
+  // Update questions
+  questionList.innerHTML = "";
+  passages[index].questions.forEach(q => {
+    const li = document.createElement("li");
+    li.innerHTML = `
       <label>${q.text}</label><br>
       <input type="text" id="${q.id}">
-    </li>
-  `).join('');
+    `;
+    questionList.appendChild(li);
+  });
 
-  document.querySelector(".right-pane").innerHTML = `
-    <h2>Questions</h2>
-    <ol>${questionsHTML}</ol>
-    <button onclick="submitAnswers()">Submit</button>
-    <div id="results"></div>
-  `;
+  document.getElementById("results").innerHTML = "";
 }
 
 function changePassage(direction) {
@@ -67,5 +70,33 @@ function submitAnswers() {
   document.getElementById("results").innerHTML = resultText;
 }
 
-// Load the first passage
+// Highlight selection inside the left pane
+document.addEventListener('mouseup', function () {
+  const selection = window.getSelection();
+  if (selection.rangeCount > 0 && selection.toString().length > 0) {
+    const range = selection.getRangeAt(0);
+    const span = document.createElement("span");
+    span.style.backgroundColor = "yellow";
+    range.surroundContents(span);
+    selection.removeAllRanges();
+  }
+});
+
+// Timer
+let totalSeconds = 60 * 60;
+function updateTimer() {
+  const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+  const seconds = String(totalSeconds % 60).padStart(2, '0');
+  document.getElementById("timer").textContent = `Time left: ${minutes}:${seconds}`;
+  totalSeconds--;
+  if (totalSeconds >= 0) {
+    setTimeout(updateTimer, 1000);
+  } else {
+    alert("Time's up!");
+    submitAnswers();
+  }
+}
+
+// Initialize
 loadPassage(0);
+updateTimer();
