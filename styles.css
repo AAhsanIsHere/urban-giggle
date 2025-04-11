@@ -71,6 +71,10 @@ input[type="text"] {
   margin-bottom: 15px;
 }
 
+input[type="text"]:disabled {
+  background-color: #eee;
+}
+
 #results {
   margin-top: 20px;
   font-weight: bold;
