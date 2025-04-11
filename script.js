@@ -36,7 +36,7 @@ function loadPassage(index) {
   const questionList = document.getElementById('question-list');
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
-  const submitBtn = document.getElementById('submitAllBtn');
+  const submitBtn = document.getElementById('submitBtn');
   const resultsDiv = document.getElementById('results');
 
   const passage = passages[index];
@@ -51,7 +51,8 @@ function loadPassage(index) {
     const li = document.createElement("li");
     li.innerHTML = `
       <label>${q.text}</label><br>
-      <input type="text" id="${q.id}" value="${userAnswers[q.id] || ''}" oninput="userAnswers['${q.id}'] = this.value">
+      <input type="text" id="${q.id}" value="${userAnswers[q.id] || ''}" 
+        oninput="userAnswers['${q.id}'] = this.value">
     `;
     questionList.appendChild(li);
   });
@@ -91,7 +92,7 @@ function submitAnswers() {
   document.querySelectorAll('input[type="text"]').forEach(input => input.disabled = true);
   document.getElementById('prevBtn').disabled = true;
   document.getElementById('nextBtn').disabled = true;
-  document.getElementById('submitAllBtn').disabled = true;
+  document.getElementById('submitBtn').disabled = true;
 }
 
 // Highlight selected text
