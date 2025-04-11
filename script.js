@@ -1,5 +1,6 @@
 const passages = [
   {
+    title: "Passage 1: Marie Curie",
     text: "Marie Curie is probably the most famous woman scientist who has ever lived. Born in Poland in 1867...",
     questions: [
       { id: "q1", text: "1. Marie Curie’s husband was a joint winner of both Marie’s Nobel Prizes.", answer: "FALSE" },
@@ -8,11 +9,21 @@ const passages = [
     ]
   },
   {
+    title: "Passage 2: Nikola Tesla",
     text: "Nikola Tesla was a Serbian-American inventor known for his contributions to the design of the modern alternating current...",
     questions: [
       { id: "q1", text: "1. Tesla invented direct current systems.", answer: "FALSE" },
       { id: "q2", text: "2. Tesla worked for Thomas Edison at some point.", answer: "TRUE" },
       { id: "q3", text: "3. He was born in the United States.", answer: "FALSE" }
+    ]
+  },
+  {
+    title: "Passage 3: The History of Coffee",
+    text: "Coffee is one of the most popular beverages in the world. It originated in Ethiopia and spread through the Arabian Peninsula...",
+    questions: [
+      { id: "q1", text: "1. Coffee was first discovered in South America.", answer: "FALSE" },
+      { id: "q2", text: "2. Coffee spread through the Arabian Peninsula.", answer: "TRUE" },
+      { id: "q3", text: "3. Coffee is consumed only in the mornings.", answer: "FALSE" }
     ]
   }
 ];
@@ -22,18 +33,15 @@ let currentPassage = 0;
 function loadPassage(index) {
   const passagePane = document.getElementById('passage-pane');
   const questionList = document.getElementById('question-list');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const resultsDiv = document.getElementById('results');
 
-  // Update passage text
   passagePane.innerHTML = `
-    <h2>Reading Passage</h2>
+    <h2>${passages[index].title}</h2>
     <p>${passages[index].text}</p>
-    <div class="navigation-buttons">
-      <button id="prevBtn" onclick="changePassage(-1)" style="${index === 0 ? 'display:none;' : ''}">Previous</button>
-      <button id="nextBtn" onclick="changePassage(1)" style="${index === passages.length - 1 ? 'display:none;' : ''}">Next</button>
-    </div>
   `;
 
-  // Update questions
   questionList.innerHTML = "";
   passages[index].questions.forEach(q => {
     const li = document.createElement("li");
@@ -44,7 +52,9 @@ function loadPassage(index) {
     questionList.appendChild(li);
   });
 
-  document.getElementById("results").innerHTML = "";
+  prevBtn.style.display = index === 0 ? "none" : "inline-block";
+  nextBtn.style.display = index === passages.length - 1 ? "none" : "inline-block";
+  resultsDiv.innerHTML = "";
 }
 
 function changePassage(direction) {
