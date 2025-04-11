@@ -33,6 +33,7 @@ let userAnswers = {};
 let totalSeconds = 60 * 60;
 let timerId;
 let timerRunning = true;
+let isSubmitted = false;
 
 function loadPassage(index) {
   const passage = passages[index];
@@ -50,22 +51,29 @@ function loadPassage(index) {
     const li = document.createElement("li");
     li.innerHTML = `
       <label>${q.text}</label><br>
-      <input type="text" id="${q.id}" value="${userAnswers[q.id] || ""}">
+      <input type="text" id="${q.id}" value="${userAnswers[q.id] || ""}" ${isSubmitted ? "disabled" : ""}>
     `;
     questionList.appendChild(li);
   });
 
-  passage.questions.forEach(q => {
-    document.getElementById(q.id).addEventListener("input", function () {
-      userAnswers[q.id] = this.value;
+  if (!isSubmitted) {
+    passage.questions.forEach(q => {
+      document.getElementById(q.id).addEventListener("input", function () {
+        userAnswers[q.id] = this.value;
+      });
     });
-  });
+  }
 
   prevBtn.style.display = index === 0 ? "none" : "inline-block";
   nextBtn.style.display = index === passages.length - 1 ? "none" : "inline-block";
-  submitBtn.style.display = index === passages.length - 1 ? "inline-block" : "none";
 
-  resultsDiv.innerHTML = "";
+  if (!isSubmitted) {
+    submitBtn.style.display = index === passages.length - 1 ? "inline-block" : "none";
+  } else {
+    submitBtn.style.display = "none";
+  }
+
+  resultsDiv.innerHTML = index === passages.length - 1 && isSubmitted ? document.getElementById("results").innerHTML : "";
 }
 
 function changePassage(direction) {
@@ -78,8 +86,8 @@ function submitAnswers() {
 
   clearTimeout(timerId);
   timerRunning = false;
+  isSubmitted = true;
 
-  // Freeze the timer display
   const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
   const seconds = String(totalSeconds % 60).padStart(2, '0');
   document.getElementById("timer").textContent = `Time left: ${minutes}:${seconds}`;
@@ -103,10 +111,7 @@ function submitAnswers() {
   resultText = `Your score: ${score}/${total}<br><br>` + resultText;
   document.getElementById("results").innerHTML = resultText;
 
-  document.querySelectorAll('input[type="text"]').forEach(input => input.disabled = true);
-  document.getElementById("prevBtn").disabled = true;
-  document.getElementById("nextBtn").disabled = true;
-  document.getElementById("submitBtn").disabled = true;
+  loadPassage(currentPassage); // Reload current view with inputs disabled
 }
 
 function updateTimer() {
@@ -141,6 +146,6 @@ document.addEventListener('mouseup', function () {
   }
 });
 
-// Initialize
+// Init
 loadPassage(0);
 updateTimer();
