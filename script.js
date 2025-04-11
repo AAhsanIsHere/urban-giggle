@@ -31,8 +31,8 @@ const passages = [
 let currentPassage = 0;
 let userAnswers = {};
 let totalSeconds = 60 * 60;
-let timerId = null;
-let isSubmitted = false;
+let timerId;
+let timerRunning = true;
 
 function loadPassage(index) {
   const passage = passages[index];
@@ -74,10 +74,10 @@ function changePassage(direction) {
 }
 
 function submitAnswers() {
-  if (isSubmitted) return;
-  isSubmitted = true;
+  if (!timerRunning) return;
 
-  clearTimeout(timerId); // Stop the timer
+  clearTimeout(timerId);
+  timerRunning = false;
 
   let score = 0;
   let total = 0;
@@ -105,7 +105,7 @@ function submitAnswers() {
 }
 
 function updateTimer() {
-  if (isSubmitted) return;
+  if (!timerRunning) return;
 
   const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
   const seconds = String(totalSeconds % 60).padStart(2, '0');
@@ -120,7 +120,7 @@ function updateTimer() {
   }
 }
 
-// Highlight selected text
+// Highlighting selected text
 document.addEventListener('mouseup', function () {
   const selection = window.getSelection();
   if (selection.rangeCount > 0 && selection.toString().length > 0) {
@@ -131,11 +131,11 @@ document.addEventListener('mouseup', function () {
       range.surroundContents(span);
       selection.removeAllRanges();
     } catch (e) {
-      console.warn("Highlight failed:", e);
+      console.warn("Highlighting error:", e);
     }
   }
 });
 
 // Initialize
-loadPassage(currentPassage);
+loadPassage(0);
 updateTimer();
