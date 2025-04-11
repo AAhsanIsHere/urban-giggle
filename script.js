@@ -31,7 +31,8 @@ const passages = [
 let currentPassage = 0;
 let userAnswers = {};
 let totalSeconds = 60 * 60;
-let timerId;
+let timerId = null;
+let isSubmitted = false;
 
 function loadPassage(index) {
   const passage = passages[index];
@@ -73,7 +74,10 @@ function changePassage(direction) {
 }
 
 function submitAnswers() {
-  clearTimeout(timerId); // stop the timer
+  if (isSubmitted) return;
+  isSubmitted = true;
+
+  clearTimeout(timerId); // Stop the timer
 
   let score = 0;
   let total = 0;
@@ -101,6 +105,8 @@ function submitAnswers() {
 }
 
 function updateTimer() {
+  if (isSubmitted) return;
+
   const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
   const seconds = String(totalSeconds % 60).padStart(2, '0');
   document.getElementById("timer").textContent = `Time left: ${minutes}:${seconds}`;
