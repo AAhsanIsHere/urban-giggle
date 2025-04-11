@@ -51,10 +51,17 @@ function loadPassage(index) {
     const li = document.createElement("li");
     li.innerHTML = `
       <label>${q.text}</label><br>
-      <input type="text" id="${q.id}" value="${userAnswers[q.id] || ''}" 
-        oninput="userAnswers['${q.id}'] = this.value">
+      <input type="text" id="${q.id}" value="${userAnswers[q.id] || ''}">
     `;
     questionList.appendChild(li);
+  });
+
+  // Attach event listeners to inputs to save answers
+  passage.questions.forEach(q => {
+    const input = document.getElementById(q.id);
+    input.addEventListener("input", () => {
+      userAnswers[q.id] = input.value;
+    });
   });
 
   prevBtn.style.display = index === 0 ? "none" : "inline-block";
