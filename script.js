@@ -12,23 +12,24 @@ const passages = [
     title: "Passage 2: Nikola Tesla",
     text: "Nikola Tesla was a Serbian-American inventor known for his contributions...",
     questions: [
-      { id: "q1", text: "1. Tesla invented direct current systems.", answer: "FALSE" },
-      { id: "q2", text: "2. Tesla worked for Thomas Edison at some point.", answer: "TRUE" },
-      { id: "q3", text: "3. He was born in the United States.", answer: "FALSE" }
+      { id: "q4", text: "1. Tesla invented direct current systems.", answer: "FALSE" },
+      { id: "q5", text: "2. Tesla worked for Thomas Edison at some point.", answer: "TRUE" },
+      { id: "q6", text: "3. He was born in the United States.", answer: "FALSE" }
     ]
   },
   {
     title: "Passage 3: The History of Coffee",
     text: "Coffee is one of the most popular beverages in the world...",
     questions: [
-      { id: "q1", text: "1. Coffee was first discovered in South America.", answer: "FALSE" },
-      { id: "q2", text: "2. Coffee spread through the Arabian Peninsula.", answer: "TRUE" },
-      { id: "q3", text: "3. Coffee is consumed only in the mornings.", answer: "FALSE" }
+      { id: "q7", text: "1. Coffee was first discovered in South America.", answer: "FALSE" },
+      { id: "q8", text: "2. Coffee spread through the Arabian Peninsula.", answer: "TRUE" },
+      { id: "q9", text: "3. Coffee is consumed only in the mornings.", answer: "FALSE" }
     ]
   }
 ];
 
 let currentPassage = 0;
+let userAnswers = {};
 
 function loadPassage(index) {
   const passagePane = document.getElementById('passage-pane');
@@ -38,22 +39,23 @@ function loadPassage(index) {
   const submitBtn = document.getElementById('submitBtn');
   const resultsDiv = document.getElementById('results');
 
+  const passage = passages[index];
+
   passagePane.innerHTML = `
-    <h2>${passages[index].title}</h2>
-    <p>${passages[index].text}</p>
+    <h2>${passage.title}</h2>
+    <p>${passage.text}</p>
   `;
 
   questionList.innerHTML = "";
-  passages[index].questions.forEach(q => {
+  passage.questions.forEach(q => {
     const li = document.createElement("li");
     li.innerHTML = `
       <label>${q.text}</label><br>
-      <input type="text" id="${q.id}">
+      <input type="text" id="${q.id}" value="${userAnswers[q.id] || ''}" oninput="userAnswers['${q.id}'] = this.value">
     `;
     questionList.appendChild(li);
   });
 
-  // Show/hide buttons
   prevBtn.style.display = index === 0 ? "none" : "inline-block";
   nextBtn.style.display = index === passages.length - 1 ? "none" : "inline-block";
   submitBtn.style.display = index === passages.length - 1 ? "inline-block" : "none";
@@ -68,20 +70,26 @@ function changePassage(direction) {
 
 function submitAnswers() {
   let score = 0;
-  let total = passages[currentPassage].questions.length;
+  let total = 0;
   let resultText = "";
 
-  passages[currentPassage].questions.forEach(q => {
-    const userAnswer = document.getElementById(q.id).value.trim().toUpperCase();
-    if (userAnswer === q.answer) {
-      score++;
-    } else {
-      resultText += `${q.text} — Correct: "${q.answer}"<br>`;
-    }
+  passages.forEach(passage => {
+    passage.questions.forEach(q => {
+      const userAnswer = (userAnswers[q.id] || "").trim().toUpperCase();
+      total++;
+      if (userAnswer === q.answer) {
+        score++;
+      } else {
+        resultText += `${q.text} — Correct: "${q.answer}"<br>`;
+      }
+    });
   });
 
   resultText = `Your score: ${score}/${total}<br><br>` + resultText;
   document.getElementById("results").innerHTML = resultText;
+
+  // Disable all inputs
+  document.querySelectorAll('input[type="text"]').forEach(input => input.disabled = true);
 }
 
 // Highlight selected text
@@ -91,8 +99,12 @@ document.addEventListener('mouseup', function () {
     const range = selection.getRangeAt(0);
     const span = document.createElement("span");
     span.style.backgroundColor = "yellow";
-    range.surroundContents(span);
-    selection.removeAllRanges();
+    try {
+      range.surroundContents(span);
+      selection.removeAllRanges();
+    } catch (e) {
+      console.warn("Highlighting failed, likely due to overlapping spans.");
+    }
   }
 });
 
