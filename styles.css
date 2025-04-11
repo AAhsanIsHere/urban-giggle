@@ -47,11 +47,8 @@ header {
   background-color: #fff;
 }
 
-input[type="text"] {
-  width: 100%;
-  padding: 6px;
-  margin-top: 6px;
-  margin-bottom: 15px;
+.navigation-buttons {
+  margin-top: 20px;
 }
 
 button {
@@ -60,11 +57,18 @@ button {
   color: white;
   border: none;
   cursor: pointer;
-  margin-top: 10px;
+  margin-right: 10px;
 }
 
 button:hover {
   background-color: #0055aa;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 6px;
+  margin-top: 6px;
+  margin-bottom: 15px;
 }
 
 #results {
