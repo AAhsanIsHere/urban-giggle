@@ -19,9 +19,13 @@
       <ol id="question-list"></ol>
 
       <div class="navigation-controls">
-        <button id="prevBtn" onclick="changePassage(-1)">Previous</button>
-        <button id="nextBtn" onclick="changePassage(1)">Next</button>
-        <button id="submitBtn" onclick="submitAnswers()" style="display: none;">Submit</button>
+        <div class="left-buttons">
+          <button id="prevBtn" onclick="changePassage(-1)">Previous</button>
+          <button id="nextBtn" onclick="changePassage(1)">Next</button>
+        </div>
+        <div class="right-buttons">
+          <button id="submitBtn" onclick="submitAnswers()" style="display: none;">Submit</button>
+        </div>
       </div>
 
       <div id="results"></div>
