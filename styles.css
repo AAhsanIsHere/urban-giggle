@@ -47,8 +47,12 @@ header {
   background-color: #fff;
 }
 
-.question-controls {
+.submit-controls {
   margin-top: 20px;
+}
+
+.navigation-controls {
+  margin-top: 10px;
 }
 
 button {
