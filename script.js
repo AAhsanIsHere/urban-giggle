@@ -86,7 +86,7 @@ function submitAnswers() {
   resultText = `Your score: ${score}/${total}<br><br>` + resultText;
   document.getElementById("results").innerHTML = resultText;
 
-  // Disable all inputs and buttons
+  // Disable inputs and buttons after submit
   document.querySelectorAll('input[type="text"]').forEach(input => input.disabled = true);
   document.getElementById('prevBtn').disabled = true;
   document.getElementById('nextBtn').disabled = true;
@@ -104,7 +104,7 @@ document.addEventListener('mouseup', function () {
       range.surroundContents(span);
       selection.removeAllRanges();
     } catch (e) {
-      console.warn("Highlighting failed, likely due to overlapping spans.");
+      console.warn("Highlight failed: ", e);
     }
   }
 });
