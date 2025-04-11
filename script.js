@@ -56,6 +56,7 @@ function loadPassage(index) {
   prevBtn.style.display = index === 0 ? "none" : "inline-block";
   nextBtn.style.display = index === passages.length - 1 ? "none" : "inline-block";
   submitControls.style.display = index === passages.length - 1 ? "block" : "none";
+
   resultsDiv.innerHTML = "";
 }
 
@@ -82,7 +83,7 @@ function submitAnswers() {
   document.getElementById("results").innerHTML = resultText;
 }
 
-// Highlight selection inside the left pane
+// Highlight selected text in passage
 document.addEventListener('mouseup', function () {
   const selection = window.getSelection();
   if (selection.rangeCount > 0 && selection.toString().length > 0) {
