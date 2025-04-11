@@ -79,6 +79,11 @@ function submitAnswers() {
   clearTimeout(timerId);
   timerRunning = false;
 
+  // Freeze the timer display
+  const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+  const seconds = String(totalSeconds % 60).padStart(2, '0');
+  document.getElementById("timer").textContent = `Time left: ${minutes}:${seconds}`;
+
   let score = 0;
   let total = 0;
   let resultText = "";
@@ -120,7 +125,7 @@ function updateTimer() {
   }
 }
 
-// Highlighting selected text
+// Highlight selected text
 document.addEventListener('mouseup', function () {
   const selection = window.getSelection();
   if (selection.rangeCount > 0 && selection.toString().length > 0) {
